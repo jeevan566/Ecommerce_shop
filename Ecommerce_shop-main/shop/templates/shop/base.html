@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}E-commerce Shop{% endblock %}</title>
+
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body class="compact">
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="{% url 'product_list' %}" class="brand">
+        <span class="brand-name">Ecommerce</span>
+      </a>
+
+      <nav id="site-nav" class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="{% url 'product_list' %}">Home</a></li>
+          <li><a href="{% url 'about' %}">About</a></li>
+          <li><a href="{% url 'cart' %}">Cart</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  {% if messages %}
+    <div class="container messages">
+      <ul>
+        {% for message in messages %}
+          <li class="msg msg-{{ message.tags|default:'info' }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  {% block hero %}{% endblock %}
+
+  <main id="main" class="container page-content">
+    {% block breadcrumb %}{% endblock %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>&copy; {% now "Y" %} Ecommerce Shop. All rights reserved.</p>
+      <nav aria-label="Footer">
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const btn = document.getElementById('navToggle');
+      const nav = document.getElementById('site-nav');
+      if (!btn || !nav) return;
+      btn.addEventListener('click', function () {
+        const expanded = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', String(!expanded));
+        nav.classList.toggle('open');
+      });
+    })();
+  </script>
+
+  {% block extra_scripts %}{% endblock %}
+</body>
+
+</html>
